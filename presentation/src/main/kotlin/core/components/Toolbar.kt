@@ -9,14 +9,17 @@
 package tachiyomi.ui.core.components
 
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.AmbientElevationOverlay
+import androidx.compose.material.AppBarDefaults
+import androidx.compose.material.LocalElevationOverlay
+import androidx.compose.material.Surface
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.google.accompanist.insets.statusBarsPadding
 import tachiyomi.ui.core.theme.CustomColors
 
 @Composable
@@ -27,17 +30,26 @@ fun Toolbar(
   actions: @Composable RowScope.() -> Unit = {},
   backgroundColor: Color = CustomColors.current.bars,
   contentColor: Color = CustomColors.current.onBars,
-  elevation: Dp = 4.dp
+  elevation: Dp = AppBarDefaults.TopAppBarElevation,
+  applyInsets: Boolean = true
 ) {
-  Providers(AmbientElevationOverlay provides NoElevationOverlay) {
-    TopAppBar(
-      title = title,
+  CompositionLocalProvider(LocalElevationOverlay provides NoElevationOverlay) {
+    // Wrap in another Surface to avoid drawing elevation between status bar and toolbar
+    Surface(
       modifier = modifier,
-      navigationIcon = navigationIcon,
-      actions = actions,
-      backgroundColor = backgroundColor,
+      color = backgroundColor,
       contentColor = contentColor,
       elevation = elevation
-    )
+    ) {
+      TopAppBar(
+        modifier = if (applyInsets) Modifier.statusBarsPadding() else Modifier,
+        title = title,
+        navigationIcon = navigationIcon,
+        actions = actions,
+        backgroundColor = backgroundColor,
+        contentColor = contentColor,
+        elevation = 0.dp
+      )
+    }
   }
 }

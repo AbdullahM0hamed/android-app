@@ -6,30 +6,26 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
 
-package tachiyomi.ui.library.manga
+package tachiyomi.ui.downloads
 
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import tachiyomi.ui.R
 import tachiyomi.ui.core.components.BackIconButton
 import tachiyomi.ui.core.components.Toolbar
-import tachiyomi.ui.core.components.manga.MangaScreen
-import tachiyomi.ui.core.viewmodel.viewModel
 
 @Composable
-fun LibraryMangaScreen(navController: NavHostController, mangaId: Long) {
-  val vm = viewModel<LibraryMangaViewModel> {
-    LibraryMangaViewModel.Params(mangaId)
-  }
-
+fun DownloadQueueScreen(navController: NavHostController) {
   Scaffold(
     topBar = {
       Toolbar(
-        title = { Text(vm.manga?.title ?: "$mangaId") },
+        title = { Text(stringResource(R.string.download_queue)) },
         navigationIcon = { BackIconButton(navController) },
       )
-    },
-    bodyContent = { MangaScreen(navController, vm.manga) }
-  )
+    }
+  ) {
+  }
 }

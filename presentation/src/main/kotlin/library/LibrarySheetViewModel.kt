@@ -9,7 +9,6 @@
 package tachiyomi.ui.library
 
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import tachiyomi.domain.library.model.DisplayMode
 import tachiyomi.domain.library.model.LibraryFilter
@@ -24,7 +23,6 @@ import javax.inject.Inject
 class LibrarySheetViewModel @Inject constructor(
   libraryPreferences: LibraryPreferences
 ) : BaseViewModel() {
-  var selectedPage by mutableStateOf(0)
 
   var filters by libraryPreferences.filters(includeAll = true).asState()
     private set
@@ -47,15 +45,26 @@ class LibrarySheetViewModel @Inject constructor(
   var showAllCategory by libraryPreferences.showAllCategory().asState()
     private set
 
+  var showCountInCategory by libraryPreferences.showCountInCategory().asState()
+    private set
+
+  var columnsInPortrait by libraryPreferences.columnsInPortrait().asState()
+    private set
+
+  var columnsInLandscape by libraryPreferences.columnsInLandscape().asState()
+    private set
+
   fun toggleFilter(type: LibraryFilter.Type) {
     val newFilters = filters
       .map { filterState ->
         if (type == filterState.type) {
-          LibraryFilter(type, when (filterState.value) {
-            Included -> Excluded
-            Excluded -> Missing
-            Missing -> Included
-          })
+          LibraryFilter(
+            type, when (filterState.value) {
+              Included -> Excluded
+              Excluded -> Missing
+              Missing -> Included
+            }
+          )
         } else {
           filterState
         }
@@ -91,5 +100,17 @@ class LibrarySheetViewModel @Inject constructor(
 
   fun toggleShowAllCategory() {
     showAllCategory = !showAllCategory
+  }
+
+  fun toggleShowCountInCategory() {
+    showCountInCategory = !showCountInCategory
+  }
+
+  fun changeColumnsInPortrait(columns: Int) {
+    columnsInPortrait = columns.coerceAtLeast(0)
+  }
+
+  fun changeColumnsInLandscape(columns: Int) {
+    columnsInLandscape = columns.coerceAtLeast(0)
   }
 }

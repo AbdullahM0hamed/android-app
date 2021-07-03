@@ -10,8 +10,7 @@ package tachiyomi.ui.core.util
 
 import android.content.Context
 import android.widget.Toast
-import androidx.browser.customtabs.CustomTabsIntent
-import androidx.core.net.toUri
+import androidx.annotation.StringRes
 
 /**
  * Display a toast in this context.
@@ -24,14 +23,11 @@ fun Context.toast(text: String?, duration: Int = Toast.LENGTH_SHORT) {
 }
 
 /**
- * Opens a URL in a custom tab.
+ * Display a toast in this context.
+ *
+ * @param textRes the text resource to display.
+ * @param duration the duration of the toast. Defaults to short.
  */
-fun Context.openInBrowser(url: String) {
-  try {
-    val intent = CustomTabsIntent.Builder()
-      .build()
-    intent.launchUrl(this, url.toUri())
-  } catch (e: Exception) {
-    toast(e.message)
-  }
+fun Context.toast(@StringRes textRes: Int, duration: Int = Toast.LENGTH_SHORT) {
+  Toast.makeText(this, textRes, duration).show()
 }

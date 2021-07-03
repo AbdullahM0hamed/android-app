@@ -13,7 +13,6 @@ android {
     compose = true
   }
   composeOptions {
-    kotlinCompilerVersion = "1.4.21"
     kotlinCompilerExtensionVersion = Deps.compose.version
   }
 }
@@ -36,6 +35,15 @@ dependencies {
   implementation(Deps.compose.material)
   implementation(Deps.compose.icons)
   implementation(Deps.compose.navigation)
+  implementation(Deps.compose.constraintLayout)
+
+  implementation(Deps.accompanist.pager)
+  implementation(Deps.accompanist.pagerIndicator)
+  implementation(Deps.accompanist.flowlayout)
+  implementation(Deps.accompanist.coil)
+  implementation(Deps.accompanist.insets)
+  implementation(Deps.accompanist.systemUiController)
+  implementation(Deps.accompanist.swipeRefresh)
 
   implementation(Deps.coil)
 }

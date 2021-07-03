@@ -1,27 +1,24 @@
 buildscript {
   repositories {
+    mavenCentral()
     google()
-    jcenter()
   }
   dependencies {
-    classpath("com.android.tools.build:gradle:7.0.0-alpha03")
+    classpath("com.android.tools.build:gradle:7.1.0-alpha02")
     classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Deps.kotlin.version}")
     classpath("org.jetbrains.kotlin:kotlin-serialization:${Deps.kotlin.version}")
-    classpath("com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.5")
   }
 }
 
 plugins {
-  id("com.github.ben-manes.versions") version "0.36.0"
+  id("com.github.ben-manes.versions") version "0.39.0"
 }
 
 allprojects {
   repositories {
+    mavenCentral()
     google()
-    maven { setUrl("https://kotlin.bintray.com/kotlinx") }
     maven { setUrl("https://jitpack.io") }
-    maven { setUrl("https://google.bintray.com/flexbox-layout") }
-    jcenter()
     maven { setUrl("https://oss.sonatype.org/content/repositories/snapshots/") }
   }
 }
@@ -35,10 +32,7 @@ subprojects {
         "-Xuse-experimental=kotlinx.coroutines.FlowPreview",
         "-Xuse-experimental=kotlinx.coroutines.ExperimentalCoroutinesApi",
         "-Xuse-experimental=kotlinx.serialization.ExperimentalSerializationApi",
-
-        // For Jetpack Compose
-        "-Xallow-jvm-ir-dependencies",
-        "-Xskip-prerelease-check"
+        "-Xuse-experimental=androidx.compose.foundation.ExperimentalFoundationApi"
       )
       jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
@@ -70,7 +64,7 @@ subprojects {
 
   plugins.withType<JacocoPlugin> {
     configure<JacocoPluginExtension> {
-      toolVersion = "0.8.6"
+      toolVersion = "0.8.7"
     }
   }
 
